@@ -5,7 +5,7 @@
 #import <React/RCTBridge.h>
 #import <React/RCTEventDispatcher.h>
 #import <CoreMotion/CoreMotion.h>
-#import "Utils.h"
+#import "RNUtils.h"
 
 @implementation Barometer
 
@@ -75,12 +75,12 @@ RCT_EXPORT_METHOD(getData:(RCTResponseSenderBlock) cb) {
     CMAltitudeData * _Nullable altitudeData = self->_altimeter;
     if (altitudeData) {
         if (self->logLevel > 0) {
-            NSLog(@"getData: %f, %f, %f", altitudeData.pressure.doubleValue, altitudeData.timestamp, [Utils sensorTimestampToEpochMilliseconds:altitudeData.timestamp]);
+            NSLog(@"getData: %f, %f, %f", altitudeData.pressure.doubleValue, altitudeData.timestamp, [RNUtils sensorTimestampToEpochMilliseconds:altitudeData.timestamp]);
         }
 
         cb(@[[NSNull null], @{
                 @"pressure" : @(altitudeData.pressure.doubleValue * 10.0),
-                @"timestamp" : [NSNumber numberWithDouble:[Utils sensorTimestampToEpochMilliseconds:altitudeData.timestamp]]
+                @"timestamp" : [NSNumber numberWithDouble:[RNUtils sensorTimestampToEpochMilliseconds:altitudeData.timestamp]]
             }]
            );
     }
@@ -102,12 +102,12 @@ RCT_EXPORT_METHOD(startUpdates) {
 
         if (altitudeData) {
             if (self->logLevel > 1) {
-                NSLog(@"Updated altitue value: %f, %f, %f", altitudeData.pressure.doubleValue, altitudeData.timestamp, [Utils sensorTimestampToEpochMilliseconds:altitudeData.timestamp]);
+                NSLog(@"Updated altitue value: %f, %f, %f", altitudeData.pressure.doubleValue, altitudeData.timestamp, [RNUtils sensorTimestampToEpochMilliseconds:altitudeData.timestamp]);
             }
 
             [self sendEventWithName:@"Barometer" body:@{
                 @"pressure" : @(altitudeData.pressure.doubleValue * 10.0),
-                @"timestamp" : [NSNumber numberWithDouble:[Utils sensorTimestampToEpochMilliseconds:altitudeData.timestamp]]
+                @"timestamp" : [NSNumber numberWithDouble:[RNUtils sensorTimestampToEpochMilliseconds:altitudeData.timestamp]]
             }];
         }
 

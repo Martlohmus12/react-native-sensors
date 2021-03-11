@@ -5,7 +5,7 @@
 #import <React/RCTBridge.h>
 #import <React/RCTEventDispatcher.h>
 #import "Orientation.h"
-#import "Utils.h"
+#import "RNUtils.h"
 
 @implementation Orientation
 
@@ -89,7 +89,7 @@ RCT_EXPORT_METHOD(getUpdateInterval:(RCTResponseSenderBlock) cb) {
 
 RCT_EXPORT_METHOD(getData:(RCTResponseSenderBlock) cb) {
     CMAttitude *attitude = self->_motionManager.deviceMotion.attitude;
-    
+
     double qx = attitude.quaternion.x;
     double qy = attitude.quaternion.y;
     double qz = attitude.quaternion.z;
@@ -99,7 +99,7 @@ RCT_EXPORT_METHOD(getData:(RCTResponseSenderBlock) cb) {
     double roll = attitude.roll;
     double yaw = attitude.yaw;
 
-    double timestamp = [Utils sensorTimestampToEpochMilliseconds:self->_motionManager.deviceMotion.timestamp];
+    double timestamp = [RNUtils sensorTimestampToEpochMilliseconds:self->_motionManager.deviceMotion.timestamp];
 
     if (self->logLevel > 0) {
         NSLog(@"getData pitch/roll/yaw: %f, %f, %f, %f", pitch, roll, yaw, timestamp);
@@ -132,7 +132,7 @@ RCT_EXPORT_METHOD(startUpdates) {
                                                withHandler:^(CMDeviceMotion *deviceMotion, NSError *error)
      {
          CMAttitude *attitude = deviceMotion.attitude;
-         
+
          double qx = attitude.quaternion.x;
          double qy = attitude.quaternion.y;
          double qz = attitude.quaternion.z;
@@ -142,7 +142,7 @@ RCT_EXPORT_METHOD(startUpdates) {
          double roll = attitude.roll;
          double yaw = attitude.yaw;
 
-         double timestamp = [Utils sensorTimestampToEpochMilliseconds:deviceMotion.timestamp];
+         double timestamp = [RNUtils sensorTimestampToEpochMilliseconds:deviceMotion.timestamp];
 
          if (self->logLevel > 1) {
              NSLog(@"Updated device motion pitch/roll/yaw: %f, %f, %f, %f", pitch, roll, yaw, timestamp);

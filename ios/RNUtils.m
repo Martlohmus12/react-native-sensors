@@ -1,6 +1,6 @@
-#import "Utils.h"
+#import "RNUtils.h"
 
-@implementation Utils
+@implementation RNUtils
 
 + (double)sensorTimestampToEpochMilliseconds:(NSTimeInterval) timestamp {
     return floor(([[NSDate date] timeIntervalSince1970] + (timestamp - [[NSProcessInfo processInfo] systemUptime])) * 1000);
